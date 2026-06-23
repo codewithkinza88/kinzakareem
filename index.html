@@ -1,504 +1,260 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Kinza Kareem — Data Science Student.</title>
-    <meta name="description" content="Kinza Kareem — Data Science student. Curious by default. Careful by craft." />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Kinza Kareem — Data Science Student specialising in computing pipelines, embedded systems, and backend architecture. Explore my work in C++, IoT, and OOP.">
+    <meta property="og:title" content="Kinza Kareem | Data Science Portfolio">
+    <meta property="og:description" content="Portfolio of Kinza Kareem — Data Science Student, systems thinker, and hardware-software integrator.">
+    <title>Kinza Kareem </title>
+
+    <!-- Premium Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Custom Cursor Canvas -->
+    <canvas id="cursor-canvas" aria-hidden="true"></canvas>
 
-    <!-- Ambient background -->
-    <div class="bg-layer">
-        <div class="bg-orb bg-orb-violet"></div>
-        <div class="bg-orb bg-orb-magenta"></div>
-        <div class="bg-orb bg-orb-deep"></div>
-        <div class="bg-orb bg-orb-teal"></div>
-        <div class="bg-grid"></div>
-        <div class="bg-noise"></div>
-    </div>
-
-    <!-- Premium custom cursor -->
-    <div class="cursor" id="cursor">
-        <div class="cursor-ring" id="cursorRing"></div>
-        <div class="cursor-dot" id="cursorDot"></div>
-        <span class="cursor-label" id="cursorLabel"></span>
-    </div>
-
-    <!-- Scroll progress -->
-    <div class="scroll-progress" id="scrollProgress"></div>
-
-    <!-- Navigation -->
-    <nav class="nav">
-        <a href="#home" class="nav-logo" data-cursor="link">
-            <span class="logo-mark" aria-hidden="true">
-                <!-- SVG monogram for sharper branding -->
-                <svg width="32" height="32" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img">
-                    <defs>
-                        <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="#9b6cff" />
-                            <stop offset="100%" stop-color="#6b21a8" />
-                        </linearGradient>
-                    </defs>
-                    <rect x="0" y="0" width="64" height="64" rx="12" fill="url(#g1)" />
-                    <g transform="translate(8,8) scale(0.75)" fill="#fff" font-family="Instrument Serif, serif" font-style="italic" font-weight="400">
-                        <text x="6" y="44" font-size="40">KK</text>
-                    </g>
-                </svg>
-            </span>
-            <span class="logo-text">Kinza Kareem</span>
-        </a>
-        <ul class="nav-links">
-            <li><a href="#home" class="nav-link" data-cursor="link">Index</a></li>
-            <li><a href="#philosophy" class="nav-link" data-cursor="link">Values</a></li>
-            <li><a href="#about" class="nav-link" data-cursor="link">About</a></li>
-            <li><a href="#stack" class="nav-link" data-cursor="link">Craft</a></li>
-            <li><a href="#projects" class="nav-link" data-cursor="link">Work</a></li>
-            <li><a href="#contact" class="nav-link" data-cursor="link">Contact</a></li>
-        </ul>
-        <a href="#contact" class="nav-cta" data-cursor="link" data-cursor-label="Say hi">Get in Touch</a>
-        <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
-            <span></span><span></span><span></span>
+    <!-- ===== HEADER ===== -->
+    <header class="header" id="top">
+        <a href="#top" class="logo" aria-label="Back to top">Kinza Kareem</a>
+        <nav class="nav" aria-label="Primary Navigation">
+            <a href="#about">About</a>
+            <a href="#skills">Skills</a>
+            <a href="#projects">Case Studies</a>
+            <a href="#contact" class="nav-cta">Contact</a>
+        </nav>
+        <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+            <span></span><span></span>
         </button>
-    </nav>
+    </header>
 
-    <!-- ============ HERO ============ -->
-    <section class="hero" id="home">
-        <div class="hero-bg-glow"></div>
+    <!-- Mobile Nav Drawer -->
+    <div class="mobile-nav" id="mobile-nav" aria-hidden="true">
+        <a href="#about" class="mobile-nav-link">About</a>
+        <a href="#skills" class="mobile-nav-link">Skills</a>
+        <a href="#projects" class="mobile-nav-link">Case Studies</a>
+        <a href="#contact" class="mobile-nav-link accent">Contact</a>
+    </div>
 
-        <div class="hero-grid">
-
+    <main>
+        <!-- ===== HERO ===== -->
+        <section id="hero" class="hero-split">
+            <!-- Left: Dark Editorial Panel -->
             <div class="hero-left">
-                <div class="hero-eyebrow reveal">
-                    <span class="status-dot"></span>
-                    <span>Available · 2026</span>
-                    <span class="eyebrow-divider">/</span>
-                    <span class="eyebrow-place">Pakistan</span>
+                <div class="hero-eyebrow fade-in">
+                    <span class="eyebrow-dot"></span>
+                    Available for collaboration
                 </div>
-
-                <h1 class="hero-headline reveal">
-                    <span class="line">
-                        <span class="wave" aria-hidden="true">Hi!</span>
-                        <span class="word">I'm</span>
-                    </span>
-                    <span class="line line-name">
-                        <span class="hero-name">Kinza Kareem</span><span class="period">.</span>
-                    </span>
-                </h1>
-
-                <p class="hero-lede reveal">
-                    A <strong>Data Science student</strong> — <em>curious by default</em>, careful by craft.
-                </p>
-
-                <div class="hero-actions reveal">
-                    <a href="#projects" class="btn-primary" data-cursor="link" data-cursor-label="Explore">
-                        <span>See My Work</span>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                    </a>
-                    <a href="#contact" class="btn-ghost" data-cursor="link">
-                        <span>Get in Touch</span>
-                    </a>
-                </div>
-
-                <div class="hero-mini reveal">
-                    <div class="mini-item">
-                        <span class="mini-num">02</span>
-                        <span class="mini-label">Projects</span>
-                    </div>
-                    <div class="mini-divider"></div>
-                    <div class="mini-item">
-                        <span class="mini-num">09<span class="mini-sup">+</span></span>
-                        <span class="mini-label">Tools</span>
-                    </div>
-                    <div class="mini-divider"></div>
-                    <div class="mini-item">
-                        <span class="mini-num">∞</span>
-                        <span class="mini-label">Curiosity</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="hero-right reveal">
-                <div class="avatar-card">
-                    <div class="avatar-frame">
-                        <div class="avatar-inner">
-                                <img src="assets/profile.png" alt="Kinza Kareem" class="avatar-photo" />
-                                <span class="avatar-initials">KK</span>
-                            <div class="avatar-ring"></div>
-                            <div class="avatar-ring avatar-ring-2"></div>
-                            <div class="avatar-ring avatar-ring-3"></div>
-                        </div>
-                    </div>
-
-                    <div class="avatar-badge">
-                        <div class="badge-icon-wrap">
-                            <span>✦</span>
-                        </div>
-                        <div class="badge-text">
-                            <span class="badge-label">Currently</span>
-                            <span class="badge-value">Learning, building, shipping</span>
-                        </div>
-                    </div>
-
-                    <div class="floating-chip chip-1">
-                        <span class="chip-emoji">🐍</span> Python
-                    </div>
-                    <div class="floating-chip chip-2">
-                        <span class="chip-emoji">⚙️</span> C++
-                    </div>
-                    <div class="floating-chip chip-3">
-                        <span class="chip-emoji">📊</span> Data
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="hero-marquee">
-            <div class="marquee-track">
-                <span>DATA SCIENCE</span><span class="m-sep">✦</span>
-                <span>PYTHON</span><span class="m-sep">✦</span>
-                <span>C++</span><span class="m-sep">✦</span>
-                <span>JAVASCRIPT</span><span class="m-sep">✦</span>
-                <span>OOP</span><span class="m-sep">✦</span>
-                <span>ESP32</span><span class="m-sep">✦</span>
-                <span>ARDUINO</span><span class="m-sep">✦</span>
-                <span>FILE HANDLING</span><span class="m-sep">✦</span>
-                <span>DATA SCIENCE</span><span class="m-sep">✦</span>
-                <span>PYTHON</span><span class="m-sep">✦</span>
-                <span>C++</span><span class="m-sep">✦</span>
-                <span>JAVASCRIPT</span><span class="m-sep">✦</span>
-                <span>OOP</span><span class="m-sep">✦</span>
-                <span>ESP32</span><span class="m-sep">✦</span>
-                <span>ARDUINO</span><span class="m-sep">✦</span>
-                <span>FILE HANDLING</span><span class="m-sep">✦</span>
-            </div>
-        </div>
-    </section>
-
-    <!-- ============ PHILOSOPHY / VALUES ============ -->
-    <section class="section section-philosophy" id="philosophy">
-        <div class="section-head reveal">
-            <span class="section-num">Chapter 01 · Values</span>
-            <h2 class="section-title">Three quiet rules <span class="title-grad">I keep</span>.</h2>
-            <p class="section-desc">
-                A short list. The principles I return to on the difficult days.
-            </p>
-        </div>
-
-        <div class="principles-grid">
-            <article class="principle-card principle-violet reveal">
-                <span class="principle-num">i.</span>
-                <h3 class="principle-title">Slow is <em>fast</em>.</h3>
-                <p class="principle-body">
-                    The shortcut isn't always the shortest path. I'd rather understand
-                    something deeply once than skim it forever.
-                </p>
-            </article>
-
-            <article class="principle-card principle-magenta reveal">
-                <span class="principle-num">ii.</span>
-                <h3 class="principle-title">Clarity over <em>cleverness</em>.</h3>
-                <p class="principle-body">
-                    The smartest code is the one your teammate can read at midnight.
-                    Plain is a feature, not a flaw.
-                </p>
-            </article>
-
-            <article class="principle-card reveal">
-                <span class="principle-num">iii.</span>
-                <h3 class="principle-title">Small details, <em>real difference</em>.</h3>
-                <p class="principle-body">
-                    The things nobody will notice are usually the things that matter.
-                    I sweat them anyway.
-                </p>
-            </article>
-        </div>
-    </section>
-
-    <!-- ============ ABOUT ============ -->
-    <section class="section" id="about">
-        <div class="section-head reveal">
-            <span class="section-num">Chapter 02 · About</span>
-            <h2 class="section-title">A <span class="title-grad">student</span>, a <span class="title-grad-2">builder</span>, a <span class="title-grad-3">listener</span>.</h2>
-        </div>
-
-        <div class="about-wrap reveal">
-            <div class="about-main">
-                <p class="about-lead">
-                    I learn slowly, and on purpose.
-                </p>
-                <p class="about-body">
-                    I'm a Data Science student based in Pakistan. Most days you'll find
-                    me writing Python, reading something I don't yet understand, or
-                    rewriting a class until it earns its place.
-                </p>
-                <p class="about-body">
-                    I care about <strong>clarity</strong>, <strong>craft</strong>, and the
-                    small details no one will ever thank you for.
-                </p>
-
-                <blockquote class="about-quote">
-                    <span class="quote-mark">"</span>
-                    I don't ship features. I ship <em>care</em>.
-                </blockquote>
-            </div>
-
-            <aside class="about-side">
-                <div class="side-row">
-                    <span class="side-label">Role</span>
-                    <span class="side-value">Data Science Student</span>
-                </div>
-                <div class="side-row">
-                    <span class="side-label">Languages</span>
-                    <span class="side-value">Python · C++ · JS</span>
-                </div>
-                <div class="side-row">
-                    <span class="side-label">Location</span>
-                    <span class="side-value">Pakistan 🇵🇰</span>
-                </div>
-                <div class="side-row">
-                    <span class="side-label">Year</span>
-                    <span class="side-value">2026</span>
-                </div>
-                <div class="side-row">
-                    <span class="side-label">Status</span>
-                    <span class="side-value side-status">
-                        <span class="status-dot"></span> Open to collab
-                    </span>
-                </div>
-            </aside>
-        </div>
-    </section>
-
-    <!-- ============ TECH STACK ============ -->
-    <section class="section" id="stack">
-        <div class="section-head reveal">
-            <span class="section-num">Chapter 03 · Craft</span>
-            <h2 class="section-title">Tools I <span class="title-grad-2">reach for</span>.</h2>
-            <p class="section-desc">
-                A small, deliberate kit. Each one earns its place.
-            </p>
-        </div>
-
-        <div class="stack-grid reveal">
-            <div class="stack-chip" data-cursor="link"><span class="chip-icon">🐍</span>Python</div>
-            <div class="stack-chip" data-cursor="link"><span class="chip-icon">⚙️</span>C++</div>
-            <div class="stack-chip" data-cursor="link"><span class="chip-icon">⚡</span>JavaScript</div>
-            <div class="stack-chip" data-cursor="link"><span class="chip-icon">📄</span>HTML</div>
-            <div class="stack-chip" data-cursor="link"><span class="chip-icon">🎨</span>CSS</div>
-            <div class="stack-chip" data-cursor="link"><span class="chip-icon">📡</span>ESP32</div>
-            <div class="stack-chip" data-cursor="link"><span class="chip-icon">🔌</span>Arduino Uno</div>
-            <div class="stack-chip" data-cursor="link"><span class="chip-icon">🧱</span>Object-Oriented Programming</div>
-            <div class="stack-chip" data-cursor="link"><span class="chip-icon">📁</span>File Handling</div>
-        </div>
-    </section>
-
-    <!-- ============ PROJECTS ============ -->
-    <section class="section" id="projects">
-        <div class="section-head reveal">
-            <span class="section-num">Chapter 04 · Work</span>
-            <h2 class="section-title">Selected <span class="title-grad-3">work</span>.</h2>
-            <p class="section-desc">
-                Two projects at opposite ends of the craft — one in firmware,
-                one in software architecture.
-            </p>
-        </div>
-
-        <div class="projects-stack">
-
-            <article class="feature-card feature-card-iot reveal" data-tilt data-cursor="view" data-cursor-label="Explore">
-                <div class="feature-glow"></div>
-                <div class="feature-shine"></div>
-                <div class="feature-aurora"></div>
-
-                <div class="feature-body">
-                    <div class="feature-meta">
-                        <span class="feature-eyebrow">Internet of Things · Live Telemetry</span>
-                        <span class="feature-year">2026</span>
-                    </div>
-                    <h3 class="feature-title">Smart Streetlight <em>&amp;</em> Traffic Analyzer.</h3>
-                    <p class="feature-desc">
-                        Streetlights that <em>think</em>. A networked prototype using ESP32
-                        and Arduino Uno that automates lighting in response to ambient
-                        conditions while logging real-time vehicle flow — turning ordinary
-                        city furniture into an always-on data source.
+                <div class="hero-content fade-in">
+                    <h1 class="hero-title">
+                        Data<br>
+                        <em>Science </em><br>
+                        Student
+                    </h1>
+                    <p class="hero-subtitle">
+                         Hi! I'm <strong>Kinza Kareem</strong> — a Data Science student who architects clean computing pipelines, designs backend structural paradigms, and engineers embedded system hardware logic.
                     </p>
-
-                    <div class="feature-pills">
-                        <span class="pill"><span class="pill-icon">📡</span>ESP32 Microcontroller</span>
-                        <span class="pill"><span class="pill-icon">🔌</span>Arduino Uno</span>
-                        <span class="pill"><span class="pill-icon">⚙️</span>Embedded C++</span>
-                        <span class="pill"><span class="pill-icon">📊</span>Real-time Telemetry</span>
-                    </div>
-
-                    <div class="feature-divider"></div>
-
-                    <div class="feature-foot">
-                        <div class="feature-tags">
-                            <span><i></i>C++ (Arduino)</span>
-                            <span><i></i>Embedded Systems</span>
-                            <span><i></i>Hardware Design</span>
-                        </div>
-                        <a href="https://github.com/codewithkinza88" target="_blank" rel="noopener" class="source-btn" data-cursor="link" data-cursor-label="GitHub">
-                            Source Code
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
-                        </a>
+                    <div class="hero-actions">
+                        <a href="#skills" class="btn btn-primary">View Capabilities</a>
+                        <a href="#projects" class="btn btn-ghost">Featured Projects</a>
                     </div>
                 </div>
-            </article>
+            </div>
 
-            <article class="feature-card feature-card-sys reveal" data-tilt data-cursor="view" data-cursor-label="Explore">
-                <div class="feature-glow"></div>
-                <div class="feature-shine"></div>
-                <div class="feature-aurora"></div>
-
-                <div class="feature-body">
-                    <div class="feature-meta">
-                        <span class="feature-eyebrow">Systems Programming · OOP</span>
-                        <span class="feature-year">2026</span>
+            <!-- Right: Profile Image Frame -->
+            <div class="hero-right">
+                <div class="image-frame-container fade-in-delay">
+                    <div class="frame-label">
+                        <span>Kinza Kareem</span>
+                        <span>Data Science</span>
                     </div>
-                    <h3 class="feature-title">Academic Data <em>&amp;</em> Result Management.</h3>
-                    <p class="feature-desc">
-                        A C++ console application built on clean object-oriented
-                        foundations and persistent file-based storage. Designed for the
-                        structured complexity universities actually face — student records,
-                        results, transcripts — with modular classes and a disciplined
-                        separation of concerns.
-                    </p>
-
-                    <div class="feature-pills">
-                        <span class="pill"><span class="pill-icon">⚙️</span>C++ Console App</span>
-                        <span class="pill"><span class="pill-icon">🧱</span>OOP Architecture</span>
-                        <span class="pill"><span class="pill-icon">📁</span>File Handling</span>
-                        <span class="pill"><span class="pill-icon">📚</span>Built-in Headers</span>
-                    </div>
-
-                    <div class="feature-divider"></div>
-
-                    <div class="feature-foot">
-                        <div class="feature-tags">
-                            <span><i></i>C++</span>
-                            <span><i></i>Object-Oriented Design</span>
-                            <span><i></i>Data Persistence</span>
+                    <div class="image-frame">
+                        <img
+                            src="assets/profile.png"
+                            alt="Portrait of Kinza Kareem"
+                            id="profile-img"
+                            onerror="handleImageError(this)"
+                        >
+                        <div id="fallback-icon" class="fallback-placeholder hidden" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                <line x1="3" y1="9" x2="21" y2="9"></line>
+                                <line x1="9" y1="21" x2="9" y2="9"></line>
+                                <polyline points="8 3 12 7 16 3"></polyline>
+                            </svg>
+                            <p>assets/profile.png</p>
                         </div>
-                        <a href="https://github.com/codewithkinza88" target="_blank" rel="noopener" class="source-btn" data-cursor="link" data-cursor-label="GitHub">
-                            Source Code
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
-                        </a>
+                        <div class="image-overlay"></div>
+                    </div>
+                    <div class="frame-corner tl"></div>
+                    <div class="frame-corner tr"></div>
+                    <div class="frame-corner bl"></div>
+                    <div class="frame-corner br"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== ABOUT ===== -->
+        <section id="about" class="about-section">
+            <div class="about-inner">
+                <div class="about-left fade-in">
+                    <span class="section-label">Capabilities & Identity</span>
+                    <h2 class="section-heading">A systems thinker at the intersection of data and hardware.</h2>
+                </div>
+                <div class="about-right fade-in-delay">
+                    <p>Currently pursuing my bachelor's degree in Data Science at Baba Guru Nanak University (BGNU). My academic and research focus centers on advanced Data Analytics and engineering scalable connections with Artificial Intelligence. I specialize in building future-ready, end-to-end data pipelines that turn raw information into predictive intelligence.</p>
+                    <div class="identity-grid">
+                        <div class="identity-card">
+                            <span class="identity-label">Specialization</span>
+                            <p>Embedded Systems &amp; Edge Intelligence (Firmware logic specialist for ESP32 and Arduino UNO).</p>
+                        </div>
+                        <div class="identity-card">
+                            <span class="identity-label">Primary Technologies &amp; Languages</span>
+                            <p>Core Engineering Stack (Proficient in C++, Python, and Node.js).</p>
+                        </div>
                     </div>
                 </div>
-            </article>
+            </div>
+        </section>
 
-        </div>
-    </section>
+        <!-- ===== SKILLS ===== -->
+        <section id="skills" class="skills-section">
+            <div class="skills-inner">
+                <div class="fade-in">
+                    <span class="section-label">Expertise</span>
+                    <h2 class="section-heading center">Technical Skill Set</h2>
+                </div>
+                <div class="skills-grid fade-in-delay">
+                    <div class="skill-card">
+                        <div class="skill-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                        </div>
+                        <h3>C++ & OOP</h3>
+                        <p>Object-oriented design patterns, encapsulation, inheritance, and optimised data structures for high-performance computing.</p>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="6" width="22" height="12" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+                        </div>
+                        <h3>Embedded Systems</h3>
+                        <p>ESP32 firmware development, microcontroller I/O, real-time sensor data handling, and low-power edge computing.</p>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                        </div>
+                        <h3>Data Pipelines</h3>
+                        <p>Designing scalable data ingestion flows, analytics preprocessing, and structured backend data paradigms.</p>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"></path></svg>
+                        </div>
+                        <h3>IoT Integration</h3>
+                        <p>Full-stack IoT dashboards, wireless protocol coordination, and real-time traffic metrics ingestion for smart systems.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    <!-- ============ CURRENTLY ============ -->
-    <section class="section section-now" id="now">
-        <div class="now-card reveal">
-            <div class="now-aurora"></div>
-
-            <div class="now-head">
-                <span class="section-num">Chapter 05 · Currently</span>
-                <h2 class="now-title">What I'm up to <span class="title-grad">right now</span>.</h2>
+        <!-- ===== PROJECTS ===== -->
+        <section id="projects" class="projects-section">
+            <div class="projects-header fade-in">
+                <span class="section-label">Case Studies</span>
+                <h2 class="section-heading">Featured Projects</h2>
+                <p class="section-subtitle">Hands-on engineering projects spanning embedded hardware and software architecture.</p>
             </div>
 
-            <ul class="now-list">
-                <li class="now-row">
-                    <span class="now-dot"></span>
-                    <div class="now-content">
-                        <strong>Learning</strong> — going deeper into Pandas and NumPy.
-                    </div>
-                    <span class="now-tag tag-violet">Data</span>
-                </li>
-                <li class="now-row">
-                    <span class="now-dot"></span>
-                    <div class="now-content">
-                        <strong>Reading</strong> — <em>Designing Data-Intensive Applications</em>. Slow pages. Worth every one.
-                    </div>
-                    <span class="now-tag tag-magenta">Books</span>
-                </li>
-                <li class="now-row">
-                    <span class="now-dot"></span>
-                    <div class="now-content">
-                        <strong>Building</strong> — documenting my projects properly. Future-me will thank present-me.
-                    </div>
-                    <span class="now-tag tag-gold">Craft</span>
-                </li>
-                <li class="now-row">
-                    <span class="now-dot"></span>
-                    <div class="now-content">
-                        <strong>Listening</strong> — lo-fi while debugging. Nothing with lyrics.
-                    </div>
-                    <span class="now-tag tag-teal">Sound</span>
-                </li>
-            </ul>
+            <div class="projects-grid">
 
-            <p class="now-meta">
-                <span>Last updated</span>
-                <span class="now-meta-date">June 2026</span>
-            </p>
-        </div>
-    </section>
+                <!-- Card 1 -->
+                <article class="project-card" id="card-arm" tabindex="0">
+                    <div class="card-number">01</div>
+                    <div class="card-content">
+                        <div class="card-top">
+                            <span class="card-meta">Object-Oriented Development</span>
+                            <div class="card-links">
+                                <a href="https://github.com/codewithkinza88/academic_record_management.git" target="_blank" rel="noopener noreferrer" class="card-icon-link" aria-label="Open repository on GitHub">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"></path></svg>
+                                </a>
+                            </div>
+                        </div>
+                        <h3 class="card-title">Academic Record Management</h3>
+                        <p class="card-description">A high-performance academic record tracking system built with a focus on structural optimisation, C++ standard library headers, and robust OOP paradigms — including encapsulation and inheritance hierarchies.</p>
+                        <div class="card-divider"></div>
+                        <div class="card-footer">
+                            <div class="tags">
+                                <span class="tag">C++</span>
+                                <span class="tag">OOP</span>
+                                <span class="tag">Encapsulation  and other OOP concepts</span>
+                            </div>
+                            <a href="https://github.com/codewithkinza88/academic_record_management.git" target="_blank" rel="noopener noreferrer" class="cta-btn">
+                                Open Repository
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                            </a>
+                        </div>
+                    </div>
+                </article>
 
-    <!-- ============ CONTACT ============ -->
-    <section class="section section-contact" id="contact">
-        <div class="contact-card reveal">
-            <div class="contact-glow-bg"></div>
-            <div class="contact-aurora"></div>
+                <!-- Card 2 -->
+                <article class="project-card" id="card-ssc" tabindex="0">
+                    <div class="card-number">02</div>
+                    <div class="card-content">
+                        <div class="card-top">
+                            <span class="card-meta">IoT &amp; Edge Computing</span>
+                            <div class="card-links">
+                                <a href="https://github.com/codewithkinza88/light-project-.git" target="_blank" rel="noopener noreferrer" class="card-icon-link" aria-label="Open repository on GitHub">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"></path></svg>
+                                </a>
+                            </div>
+                        </div>
+                        <h3 class="card-title">Smart Streetlight Control</h3>
+                        <p class="card-description">ESP32 edge microcontroller firmware integrated with an interactive full-stack monitoring dashboard for real-time traffic metrics ingestion, automated lux-adaptive lighting, and remote system telemetry.</p>
+                        <div class="card-divider"></div>
+                        <div class="card-footer">
+                            <div class="tags">
+                                <span class="tag">ESP32</span>
+                                <span class="tag">IoT</span>
+                                <span class="tag">Traffic Analytics</span>
+                            </div>
+                            <a href="https://github.com/codewithkinza88/light-project-.git" target="_blank" rel="noopener noreferrer" class="cta-btn">
+                                Open Repository
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                            </a>
+                        </div>
+                    </div>
+                </article>
 
-            <span class="section-num">Chapter 06 · Contact</span>
-            <h2 class="contact-title">Let's <em>build</em> something <span class="title-grad">together</span>.</h2>
-            <p class="contact-sub">
-                I read every email and usually reply within a day.
-            </p>
-
-            <div class="contact-grid">
-                <a href="mailto:kinzakareem146@gmail.com" class="contact-row-link" data-cursor="link" data-cursor-label="Email">
-                    <div class="contact-meta">
-                        <span class="contact-label">Email</span>
-                        <span class="contact-value">kinzakareem146@gmail.com</span>
-                    </div>
-                    <div class="contact-arrow">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
-                    </div>
-                </a>
-                <a href="https://github.com/codewithkinza88" target="_blank" rel="noopener" class="contact-row-link" data-cursor="link" data-cursor-label="GitHub">
-                    <div class="contact-meta">
-                        <span class="contact-label">GitHub</span>
-                        <span class="contact-value">@codewithkinza88</span>
-                    </div>
-                    <div class="contact-arrow">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
-                    </div>
-                </a>
             </div>
+        </section>
 
-            <a href="mailto:kinzakareem146@gmail.com" class="btn-primary contact-cta" data-cursor="link" data-cursor-label="Send">
-                <span>Write Me a Note</span>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-            </a>
-        </div>
-    </section>
+        <!-- ===== CONTACT ===== -->
+        <section id="contact" class="contact-section">
+            <div class="contact-card fade-in">
+                <span class="contact-tracer">— CONTACT</span>
+                <h2 class="contact-heading">Let's connect on the next build.</h2>
+                <p class="contact-copy">Reach out for collaborations, project discussions, or research opportunities.</p>
+            </div>
+        </section>
 
-    <footer class="footer">
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="site-footer">
         <div class="footer-inner">
-            <div class="footer-left">
-                <span class="footer-logo">KK</span>
-                <div class="footer-meta">
-                    <span class="footer-name">Kinza Kareem</span>
-                    <span class="footer-bio">Data Science student. Made with intention.</span>
-                </div>
-            </div>
-            <div class="footer-right">
-                <span>© <span id="year"></span></span>
-                <span class="footer-dot">·</span>
-                <span>Made in Pakistan 🇵🇰</span>
-            </div>
+            <span class="footer-logo">Kinza Kareem</span>
+            <nav class="footer-links" aria-label="Footer social links">
+                <a href="#" class="footer-link" aria-label="LinkedIn">LinkedIn</a>
+                <a href="https://github.com/codewithkinza88" target="_blank" rel="noopener noreferrer" class="footer-link" aria-label="GitHub">GitHub</a>
+                <a href="mailto:kinzakareem146@gmail.com" class="footer-link" aria-label="Email">Email</a>
+            </nav>
+            <div class="footer-divider" aria-hidden="true"></div>
+            <p class="footer-copy">&copy; 2026 Kinza Kareem. Architected &amp; Engineered with precision.</p>
         </div>
     </footer>
 

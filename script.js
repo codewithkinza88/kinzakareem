@@ -1,253 +1,252 @@
-/* =========================================================
-   KINZA KAREEM — PORTFOLIO v3
-   Premium cursor (magnetic, contextual) · Tilt · Reveal · Nav
-   ========================================================= */
+/* ==========================================================================
+   script.js — Kinza Kareem Portfolio
+   Custom Cursor Physics · Card Spotlight · Scroll Animations · Mobile Nav
+   ========================================================================== */
 
-(() => {
-    'use strict';
+/* --------------------------------------------------------------------------
+   IMAGE FALLBACK (called via onerror on <img>)
+   -------------------------------------------------------------------------- */
+function handleImageError(img) {
+    img.classList.add('hidden');
+    const fallback = document.getElementById('fallback-icon');
+    if (fallback) fallback.classList.remove('hidden');
+}
 
-    const $  = (s, r = document) => r.querySelector(s);
-    const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
-    const lerp = (a, b, n) => (1 - n) * a + n * b;
-    const clamp = (v, mn, mx) => Math.min(Math.max(v, mn), mx);
-    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const isTouch = matchMedia('(hover: none), (pointer: coarse)').matches;
+/* --------------------------------------------------------------------------
+   BOOT on DOM ready
+   -------------------------------------------------------------------------- */
+document.addEventListener('DOMContentLoaded', () => {
 
-    /* Footer year */
-    const yearEl = $('#year');
-    if (yearEl) yearEl.textContent = new Date().getFullYear();
+    /* ======================================================================
+       1. CUSTOM CANVAS CURSOR  —  charcoal dot + terracotta telemetry ring
+                                    + decaying particle trail
+       ====================================================================== */
+    const canvas = document.getElementById('cursor-canvas');
+    const ctx    = canvas.getContext('2d', { alpha: true });
 
-    /* Mobile nav */
-    const navToggle = $('#navToggle');
-    const navLinks  = $('.nav-links');
-    if (navToggle && navLinks) {
-        navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
-        $$('.nav-link').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
-    }
+    let W = window.innerWidth;
+    let H = window.innerHeight;
+    canvas.width  = W;
+    canvas.height = H;
 
-    /* =========================================================
-       PREMIUM CURSOR
-       - Smoothly lerped position
-       - Contextual states (link / view / text / down)
-       - Magnetic snap on interactive elements
-       ========================================================= */
-    const cursor      = $('#cursor');
-    const cursorLabel = $('#cursorLabel');
+    window.addEventListener('resize', () => {
+        W = window.innerWidth;
+        H = window.innerHeight;
+        canvas.width  = W;
+        canvas.height = H;
+    });
 
-    if (cursor && !isTouch) {
+    /* Mouse state */
+    const mouse = { x: W / 2, y: H / 2, active: false, vx: 0, vy: 0 };
+    let lastX = mouse.x, lastY = mouse.y;
 
-        let mouseX = innerWidth / 2;
-        let mouseY = innerHeight / 2;
-        let curX = mouseX, curY = mouseY;
+    window.addEventListener('mousemove', e => {
+        mouse.vx   = e.clientX - lastX;
+        mouse.vy   = e.clientY - lastY;
+        lastX      = e.clientX;
+        lastY      = e.clientY;
+        mouse.x    = e.clientX;
+        mouse.y    = e.clientY;
+        mouse.active = true;
 
-        // Magnetic target (when hovering a small interactive element)
-        let magnetTarget = null;
+        /* Emit particle proportional to movement speed */
+        const speed = Math.sqrt(mouse.vx * mouse.vx + mouse.vy * mouse.vy);
+        const count = Math.min(Math.floor(speed * 0.25) + 1, 4);
+        for (let i = 0; i < count; i++) particles.push(new Particle(mouse.x, mouse.y));
+    });
 
-        addEventListener('mousemove', e => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-        }, { passive: true });
+    document.addEventListener('mouseleave', () => { mouse.active = false; });
 
-        addEventListener('mousedown', () => cursor.classList.add('is-down'));
-        addEventListener('mouseup',   () => cursor.classList.remove('is-down'));
+    /* ------------------------------------------------------------------
+       Particle class
+       ------------------------------------------------------------------ */
+    const PARTICLE_COLOURS = [
+        'rgba(226,149,120,',  /* terracotta base     */
+        'rgba(208,132,104,',  /* terracotta darker   */
+        'rgba(243,175,150,',  /* terracotta lighter  */
+    ];
 
-        // Hide cursor when leaving window, show on return
-        document.addEventListener('mouseleave', () => cursor.style.opacity = '0');
-        document.addEventListener('mouseenter', () => cursor.style.opacity = '1');
-
-        const tick = () => {
-            // If magnet target exists, gently pull toward its center
-            if (magnetTarget) {
-                const r = magnetTarget.getBoundingClientRect();
-                const cx = r.left + r.width / 2;
-                const cy = r.top  + r.height / 2;
-                const dx = mouseX - cx;
-                const dy = mouseY - cy;
-                // Pull 22% of the way toward center
-                const tx = mouseX - dx * 0.22;
-                const ty = mouseY - dy * 0.22;
-                curX = lerp(curX, tx, 0.22);
-                curY = lerp(curY, ty, 0.22);
-            } else {
-                curX = lerp(curX, mouseX, 0.22);
-                curY = lerp(curY, mouseY, 0.22);
-            }
-            cursor.style.transform = `translate3d(${curX}px, ${curY}px, 0)`;
-            requestAnimationFrame(tick);
-        };
-        tick();
-
-        // Contextual hover states via data-cursor attributes
-        const setState = (state, label) => {
-            cursor.classList.remove('is-link', 'is-view', 'is-text');
-            if (state) cursor.classList.add(`is-${state}`);
-            if (cursorLabel) cursorLabel.textContent = label || '';
-        };
-
-        document.addEventListener('mouseover', e => {
-            const t = e.target.closest('[data-cursor]');
-            const textT = e.target.closest('p, h1, h2, h3, h4, li, .feature-desc, .about-body, .about-lead, .hero-intro, .hero-intro-sub');
-            if (t) {
-                const state = t.getAttribute('data-cursor');     // link | view
-                const label = t.getAttribute('data-cursor-label') || '';
-                setState(state, label);
-
-                // Magnetic for compact links/buttons (not large project cards)
-                if (state === 'link' && t.getBoundingClientRect().width < 260) {
-                    magnetTarget = t;
-                }
-            } else if (textT && !e.target.closest('[data-cursor]')) {
-                setState('text');
-                magnetTarget = null;
-            }
-        });
-
-        document.addEventListener('mouseout', e => {
-            const t = e.target.closest('[data-cursor]');
-            const textT = e.target.closest('p, h1, h2, h3, h4, li, .feature-desc, .about-body, .about-lead, .hero-intro, .hero-intro-sub');
-            if (t || textT) {
-                setState(null, '');
-                magnetTarget = null;
-            }
-        });
-    }
-
-    /* ---------- Scroll Reveal ---------- */
-    const reveals = $$('.reveal');
-    if ('IntersectionObserver' in window) {
-        const io = new IntersectionObserver(entries => {
-            entries.forEach((entry, i) => {
-                if (entry.isIntersecting) {
-                    setTimeout(() => entry.target.classList.add('in-view'), i * 50);
-                    io.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.1, rootMargin: '0px 0px -80px 0px' });
-        reveals.forEach(el => io.observe(el));
-    } else {
-        reveals.forEach(el => el.classList.add('in-view'));
-    }
-
-    /* ---------- Subtle 3D tilt + shine on Feature Cards ---------- */
-    const cards = $$('[data-tilt]');
-
-    cards.forEach(card => {
-        const state = {
-            targetRX: 0, targetRY: 0, currentRX: 0, currentRY: 0,
-            targetMX: 30, targetMY: 40, currentMX: 30, currentMY: 40,
-            raf: null, active: false
-        };
-        const MAX = 4;
-
-        const animate = () => {
-            state.currentRX = lerp(state.currentRX, state.targetRX, 0.1);
-            state.currentRY = lerp(state.currentRY, state.targetRY, 0.1);
-            state.currentMX = lerp(state.currentMX, state.targetMX, 0.16);
-            state.currentMY = lerp(state.currentMY, state.targetMY, 0.16);
-
-            card.style.transform =
-                `perspective(1400px) rotateX(${state.currentRX}deg) rotateY(${state.currentRY}deg) translateZ(0)`;
-            card.style.setProperty('--mx', `${state.currentMX}%`);
-            card.style.setProperty('--my', `${state.currentMY}%`);
-
-            const delta =
-                Math.abs(state.targetRX - state.currentRX) +
-                Math.abs(state.targetRY - state.currentRY) +
-                Math.abs(state.targetMX - state.currentMX) +
-                Math.abs(state.targetMY - state.currentMY);
-
-            state.raf = (state.active || delta > 0.05) ? requestAnimationFrame(animate) : null;
-        };
-
-        const onMove = e => {
-            const r = card.getBoundingClientRect();
-            const px = (e.clientX - r.left) / r.width;
-            const py = (e.clientY - r.top)  / r.height;
-            state.targetRY = clamp((px - 0.5) * 2 * MAX, -MAX, MAX);
-            state.targetRX = clamp((0.5 - py) * 2 * MAX, -MAX, MAX);
-            state.targetMX = px * 100;
-            state.targetMY = py * 100;
-            if (!state.raf) state.raf = requestAnimationFrame(animate);
-        };
-
-        if (!reduced) {
-            card.addEventListener('mouseenter', () => {
-                state.active = true;
-                if (!state.raf) state.raf = requestAnimationFrame(animate);
-            });
-            card.addEventListener('mousemove', onMove);
-            card.addEventListener('mouseleave', () => {
-                state.active = false;
-                state.targetRX = state.targetRY = 0;
-                state.targetMX = 30; state.targetMY = 40;
-                if (!state.raf) state.raf = requestAnimationFrame(animate);
-            });
+    class Particle {
+        constructor(x, y) {
+            this.x     = x + (Math.random() - 0.5) * 4;
+            this.y     = y + (Math.random() - 0.5) * 4;
+            this.r     = Math.random() * 2.5 + 0.5;
+            this.vx    = (Math.random() - 0.5) * 1.4;
+            this.vy    = (Math.random() - 0.5) * 1.4 - 0.3; /* slight upward drift */
+            this.alpha = 0.85 + Math.random() * 0.15;
+            this.decay = 0.018 + Math.random() * 0.018;
+            this.colour = PARTICLE_COLOURS[Math.floor(Math.random() * PARTICLE_COLOURS.length)];
         }
-    });
 
-    /* ---------- Parallax orbs ---------- */
-    const orbs = $$('.bg-orb');
-    if (orbs.length && !reduced) {
-        let mx = 0, my = 0;
-        addEventListener('mousemove', e => {
-            mx = (e.clientX / innerWidth  - 0.5) * 2;
-            my = (e.clientY / innerHeight - 0.5) * 2;
-        }, { passive: true });
-        const tick = () => {
-            orbs.forEach((orb, i) => {
-                const depth = (i + 1) * 22;
-                orb.style.translate = `${mx * depth}px ${my * depth}px`;
-            });
-            requestAnimationFrame(tick);
-        };
-        tick();
+        update() {
+            this.x     += this.vx;
+            this.y     += this.vy;
+            this.vy    += 0.012;            /* gentle gravity */
+            this.vx    *= 0.97;            /* air resistance */
+            this.alpha -= this.decay;
+            this.r     *= 0.98;
+        }
+
+        draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, Math.max(this.r, 0.1), 0, Math.PI * 2);
+            ctx.fillStyle = this.colour + Math.max(this.alpha, 0) + ')';
+            ctx.fill();
+        }
+
+        isDead() { return this.alpha <= 0 || this.r < 0.15; }
     }
 
-    /* ---------- Floating chip parallax in hero ---------- */
-    const chips = $$('.floating-chip');
-    if (chips.length && !reduced) {
-        let mx = 0, my = 0;
-        addEventListener('mousemove', e => {
-            mx = (e.clientX / innerWidth  - 0.5) * 2;
-            my = (e.clientY / innerHeight - 0.5) * 2;
-        }, { passive: true });
-        const tick = () => {
-            chips.forEach((chip, i) => {
-                const depth = 8 + i * 4;
-                chip.style.translate = `${mx * depth}px ${my * depth}px`;
-            });
-            requestAnimationFrame(tick);
-        };
-        tick();
+    let particles = [];
+
+    /* Smooth cursor position with lerp for a fluid feel */
+    const rendered = { x: mouse.x, y: mouse.y };
+    const LERP = 0.18;
+
+    /* Ring animation state — pulsing outer telemetry loop */
+    let ringScale  = 1;
+    let ringAlpha  = 0;
+    let ringTarget = 0;
+
+    /* ------------------------------------------------------------------
+       Main render loop
+       ------------------------------------------------------------------ */
+    function loop() {
+        ctx.clearRect(0, 0, W, H);
+
+        /* Lerp rendered position toward real mouse */
+        rendered.x += (mouse.x - rendered.x) * LERP;
+        rendered.y += (mouse.y - rendered.y) * LERP;
+
+        /* --- Particles --- */
+        for (let i = particles.length - 1; i >= 0; i--) {
+            particles[i].update();
+            particles[i].draw();
+            if (particles[i].isDead()) particles.splice(i, 1);
+        }
+
+        if (mouse.active) {
+            /* ---- Outer telemetry ring (glowing terracotta) ---------- */
+            ringTarget = 1;
+            ringAlpha  += (ringTarget - ringAlpha) * 0.12;
+            ringScale  += (1 - ringScale) * 0.14;
+
+            /* Glow halo */
+            const grad = ctx.createRadialGradient(
+                rendered.x, rendered.y, 8,
+                rendered.x, rendered.y, 22
+            );
+            grad.addColorStop(0, `rgba(226,149,120,${ringAlpha * 0.18})`);
+            grad.addColorStop(1, 'rgba(226,149,120,0)');
+            ctx.beginPath();
+            ctx.arc(rendered.x, rendered.y, 22, 0, Math.PI * 2);
+            ctx.fillStyle = grad;
+            ctx.fill();
+
+            /* Ring stroke */
+            ctx.beginPath();
+            ctx.arc(rendered.x, rendered.y, 13 * ringScale, 0, Math.PI * 2);
+            ctx.strokeStyle = `rgba(226,149,120,${ringAlpha * 0.65})`;
+            ctx.lineWidth   = 1.2;
+            ctx.stroke();
+
+            /* ---- Core charcoal dot ---------------------------------- */
+            ctx.beginPath();
+            ctx.arc(rendered.x, rendered.y, 3.5, 0, Math.PI * 2);
+            ctx.fillStyle = '#1E2028';
+            ctx.fill();
+
+        } else {
+            /* Fade out ring when cursor leaves */
+            ringAlpha -= 0.04;
+            if (ringAlpha < 0) ringAlpha = 0;
+        }
+
+        requestAnimationFrame(loop);
     }
 
-    /* ---------- Smooth scroll ---------- */
-    $$('a[href^="#"]').forEach(a => {
-        a.addEventListener('click', e => {
-            const id = a.getAttribute('href');
-            if (id.length <= 1) return;
-            const target = document.querySelector(id);
-            if (!target) return;
-            e.preventDefault();
-            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    loop();
+
+    /* ======================================================================
+       2. CARD SPOTLIGHT  —  CSS vars --mouse-x / --mouse-y updated on move
+       ====================================================================== */
+    document.querySelectorAll('.project-card').forEach(card => {
+        card.addEventListener('mousemove', e => {
+            const rect = card.getBoundingClientRect();
+            card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+            card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
         });
     });
 
-    /* ---------- Active nav link ---------- */
-    const sections = $$('section[id]');
-    const navLinkEls = $$('.nav-link');
-    if (sections.length && navLinkEls.length && 'IntersectionObserver' in window) {
-        const navIO = new IntersectionObserver(entries => {
+    /* ======================================================================
+       3. INTERSECTION OBSERVER  —  scroll-triggered fade-in animations
+       ====================================================================== */
+    const io = new IntersectionObserver(
+        (entries, obs) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    const id = entry.target.id;
-                    navLinkEls.forEach(link => {
-                        link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
-                    });
+                    entry.target.classList.add('is-visible');
+                    obs.unobserve(entry.target);
                 }
             });
-        }, { rootMargin: '-40% 0px -55% 0px' });
-        sections.forEach(s => navIO.observe(s));
+        },
+        { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+    );
+
+    document.querySelectorAll('.fade-in, .fade-in-delay').forEach(el => io.observe(el));
+
+    /* ======================================================================
+       4. MOBILE NAV TOGGLE
+       ====================================================================== */
+    const toggle  = document.getElementById('menu-toggle');
+    const mobileNav = document.getElementById('mobile-nav');
+
+    if (toggle && mobileNav) {
+        toggle.addEventListener('click', () => {
+            const isOpen = mobileNav.classList.toggle('open');
+            toggle.setAttribute('aria-expanded', String(isOpen));
+            mobileNav.setAttribute('aria-hidden', String(!isOpen));
+        });
+
+        /* Close nav when a link is clicked */
+        mobileNav.querySelectorAll('.mobile-nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileNav.classList.remove('open');
+                toggle.setAttribute('aria-expanded', 'false');
+                mobileNav.setAttribute('aria-hidden', 'true');
+            });
+        });
     }
 
-})();
+    /* ======================================================================
+       5. HEADER SCROLL BLEND — subtle border appears on scroll
+       ====================================================================== */
+    const header = document.querySelector('.header');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 60) {
+            header.style.backdropFilter = 'blur(0px)';
+        } else {
+            header.style.backdropFilter = '';
+        }
+    }, { passive: true });
+
+    /* ======================================================================
+       6. SMOOTH ACTIVE NAV HIGHLIGHT on scroll
+       ====================================================================== */
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav a');
+
+    const sectionObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                navLinks.forEach(a => {
+                    a.style.opacity = a.getAttribute('href') === `#${id}` ? '1' : '0.5';
+                });
+            }
+        });
+    }, { threshold: 0.4 });
+
+    sections.forEach(s => sectionObserver.observe(s));
+
+});
